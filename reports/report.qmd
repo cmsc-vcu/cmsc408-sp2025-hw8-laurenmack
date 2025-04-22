@@ -9,7 +9,7 @@ GITHUB URL:  <https://github.com/cmsc-vcu/cmsc408-sp2025-hw8-laurenmack>
 
 
 ```{python}
-from helpers import create_database_engine, run_sql_and_return_df, run_sql_and_return_html, create_db_wrapper, execute_ddl_from_file, execute_ddl
+from helpers import create_database_engine, run_sql_and_return_html, run_sql_and_return_html, create_db_wrapper, execute_ddl_from_file, execute_ddl
 
 # Load these variables from .env file.
 config_map = {
@@ -92,11 +92,11 @@ List all non-countries.
 
 run_sql_and_return_html(cnx,"""
 select
-  *
+  'Long Name', 'Region'
 from
   world_bank_data.wdi_country
 where
-  country_is_country = 0
+  not region is NULL
 """)
 ```
 
@@ -115,19 +115,31 @@ Create your own copy of WDI_Country containing just countries.
 # drop table
 execute_ddl(cnx,"""
 drop table if exists wdi_country;
+drop table if exists peopleroles;
+drop table if exists peopleskills;
+drop table if exists roles; 
+drop table if exists people;
+drop table if exists skills;
 """)
 ```
 
 ```{python}
 # create table
 execute_ddl(cnx,"""
+create table wdi_country as
+select 
+  *
+from 
+  world_bank_data.wdi_country
+where
+  not region is NULL
 """)
 ```
 
 ```{python}
 # show number of records
 run_sql_and_return_html(cnx,"""
-select "doh!" as "Homer says ..." from dual
+select count(*) from wdi_country
 """)
 ```
 
@@ -139,10 +151,7 @@ According to the World Bank, in 2020 there were how many countries in the world?
 ## (skills: select, aggregate)
 
 run_sql_and_return_html(cnx,"""
-sselect
-  count(*) as "Number of Countries in 2020"
-from
-  wdi_country
+sselect count(*) from wdi_country 
 """)
 
 ```
@@ -160,11 +169,13 @@ What are all unique values of region in the wdi_country table?
 
 run_sql_and_return_html(cnx,"""
 select 
-  distinct country_region as "Region"
+  'Region' ,count(*)
 from
   wdi_country
+group by 
+  'Region'
 order by
-  country_region
+  'Region'
 """)
 
 ```
@@ -200,15 +211,9 @@ List the country full names and regions for all countries in north america.
 ## (skills: select, where, order by)
 
 run_sql_and_return_html(cnx,"""
-select
-  country_name as "Country Name",
-  country_region as "Region"
-from
-  wdi_country
-where
-  lower(country_region) = 'north america'
-order by
-  country_name
+Select 'Long Name' , 'Region'
+from wdi_country
+where 'Region' ='North America'
 """)
 
 ```
@@ -221,14 +226,9 @@ order by
 ## (skills: select, where)
 
 run_sql_and_return_html(cnx,"""
-select
-  country_region as "Region",
-  country_name_short as "Country Short Name",
-  country_name as "Country Full Name"
-from
-  wdi_country
-where
-  country_name_short = 'Qatar'
+select 'Long Name' ,'Region'
+from wdi_country
+where 'Short Name' = 'Qatar'
 """)
 
 ```
@@ -242,18 +242,11 @@ where
 ## (skills: select, where, order by)
 
 run_sql_and_return_html(cnx,"""
-select
-  country_code as "Country Code",
-  country_name_short as "Short Name",
-  country_abbr as "Abbreviation",
-  country_wb_abbr as "WB Abbreviation",
-  country_region as "Region"
-from
-  wdi_country
+select 'Country Code' , 'Short Name' , '2-alpha code' ,
+'WB-2 code' , 'Region'
+from wdi_country
 where
-  country_abbr != country_wb_abbr
-order by
-  country_name_short
+  '2-alpha code' <> 'WB-2 code'
 """)
 
 ```
@@ -267,15 +260,9 @@ order by
 ## (skills: select, aggregate, group by, order by)
 
 run_sql_and_return_html(cnx,"""
-select
-  country_income as "Income Category",
-  count(*) as "Number of Countries"
-from
-  wdi_country
-group by
-  country_income
-order by
-  count(*) desc
+select 'Income Category' from wdi_country
+from wdi_country
+group by 'Income Category'
 """)
 
 ```
