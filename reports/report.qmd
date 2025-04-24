@@ -91,13 +91,12 @@ List all non-countries.
 ## (skills: select, where)
 
 run_sql_and_return_html(cnx,"""
-SELECT
-  country_name AS "Long Name", 
-  country_region AS "Region"
-FROM
+select
+  `Long Name`, `Region`
+from
   world_bank_data.wdi_country
-WHERE
-  region IS NOT NULL
+where
+  not region is NULL
 """)
 ```
 
@@ -116,31 +115,19 @@ Create your own copy of WDI_Country containing just countries.
 # drop table
 execute_ddl(cnx,"""
 drop table if exists wdi_country;
-drop table if exists peopleroles;
-drop table if exists peopleskills;
-drop table if exists roles; 
-drop table if exists people;
-drop table if exists skills;
 """)
 ```
 
 ```{python}
 # create table
 execute_ddl(cnx,"""
-create table wdi_country AS
-SELECT 
-  *
-FROM 
-  world_bank_data.wdi_country
-WHERE
-  region IS NOT NULL
 """)
 ```
 
 ```{python}
 # show number of records
 run_sql_and_return_html(cnx,"""
-select count(*) from wdi_country
+select "doh!" as "Homer says ..." from dual
 """)
 ```
 
@@ -152,10 +139,10 @@ According to the World Bank, in 2020 there were how many countries in the world?
 ## (skills: select, aggregate)
 
 run_sql_and_return_html(cnx,"""
-SELECT 
-  COUNT(*) AS "Number of Countries in 2020" 
-FROM 
-  wdi_country 
+select
+  count(*) as "Number of Countries in 2020"
+from
+  wdi_country
 """)
 
 ```
@@ -172,11 +159,11 @@ What are all unique values of region in the wdi_country table?
 ## (skills: select, aggregate, order by)
 
 run_sql_and_return_html(cnx,"""
-SELECT 
-  DISTINCT country_region AS "Region"
-FROM
+select 
+  distinct country_region as "Region"
+from
   wdi_country
-ORDER BY
+order by
   country_region
 """)
 
@@ -213,14 +200,14 @@ List the country full names and regions for all countries in north america.
 ## (skills: select, where, order by)
 
 run_sql_and_return_html(cnx,"""
-SELECT 
-  country_name AS "Long Name", 
-  country_region AS "Region"
-FROM 
+select
+  country_name as "Country Name",
+  country_region as "Region"
+from
   wdi_country
-WHERE 
-  country_region = 'North America'
-ORDER BY
+where
+  lower(country_region) = 'north america'
+order by
   country_name
 """)
 
@@ -234,13 +221,13 @@ ORDER BY
 ## (skills: select, where)
 
 run_sql_and_return_html(cnx,"""
-SELECT 
-  country_name AS "Long Name",
-  country_region AS "Region",
-  country_name_short AS "Short Name"
-FROM 
+select
+  country_region as "Region",
+  country_name_short as "Country Short Name",
+  country_name as "Country Full Name"
+from
   wdi_country
-WHERE 
+where
   country_name_short = 'Qatar'
 """)
 
@@ -255,17 +242,17 @@ WHERE
 ## (skills: select, where, order by)
 
 run_sql_and_return_html(cnx,"""
-SELECT 
-  country_code AS "Country Code", 
-  country_name_short AS "Short Name", 
-  country_abbr AS "2-alpha code",
-  country_wb_abbr AS "WB-2 code", 
-  country_region AS "Region"
-FROM 
+select
+  country_code as "Country Code",
+  country_name_short as "Short Name",
+  country_abbr as "Abbreviation",
+  country_wb_abbr as "WB Abbreviation",
+  country_region as "Region"
+from
   wdi_country
-WHERE
-  country_abbr <> country_wb_abbr
-ORDER BY
+where
+  country_abbr != country_wb_abbr
+order by
   country_name_short
 """)
 
@@ -280,17 +267,15 @@ ORDER BY
 ## (skills: select, aggregate, group by, order by)
 
 run_sql_and_return_html(cnx,"""
-SELECT 
-  country_income AS "Income Category",
-  COUNT(*) AS "Number of Countries"
-FROM 
+select
+  country_income as "Income Category",
+  count(*) as "Number of Countries"
+from
   wdi_country
-WHERE
-  country_income IS NOT NULL
-GROUP BY 
+group by
   country_income
-ORDER BY
-  COUNT(*) DESC
+order by
+  count(*) desc
 """)
 
 ```
@@ -336,10 +321,7 @@ execute_ddl(cnx,"""
 ## Now, display the country again to verify the change stuck!
 
 run_sql_and_return_html(cnx,"""
-UPDATE wdi_country
-SET country_income = 'High income'
-WHERE country_name_short IN ('Qatar', 'United Arab Emirates', 'Kuwait', 'Saudi Arabia')
-  AND (country_income IS NULL OR country_income = '')
+select "doh!" as "Homer says ..." from dual
 """)
 
 ```
