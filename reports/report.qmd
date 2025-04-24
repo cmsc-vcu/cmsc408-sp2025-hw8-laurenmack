@@ -654,17 +654,16 @@ order by
 
 1. Reflect on the SQL skills you used throughout these exercises. Which skills do you feel most confident in, and which do you think need more practice? How has this assignment helped you build or reinforce specific SQL competencies?
 
-( response goes here)
+I feel confident on the actual build structure and my conceptual apporach. However, I feel like I am still having trouble with selecting the right operations. I think this assignment really allowed me to get in the trenches and practice.
 
 2. Problem-Solving Approach: Describe your approach to tackling the more complex tasks (like Tasks 18, 23, and 24). How did you break down these problems, and what steps did you take when you encountered challenges? How would you approach a similar problem differently in the future?
 
-( response goes here)
+When tackling more complex tasks like 18, 23, and 24, I approached them by breaking the larger problem into smaller, manageable parts that could be tested individually.Whenever I ran into issues, I would pause and revisit the sections of the query that were already working to help guide my next steps. Looking ahead, I think it would be helpful to sketch out the query structure on paper first before diving into the code, which could save time and make the process more organized.
 
 
-3. Learning Takeaways: Consider the overall learning experience from this assignment. What were the biggest takeaways about working with SQL for data analysis and transformation? How do you think these skills will apply in real-world scenarios or future coursework?
+1. Learning Takeaways: Consider the overall learning experience from this assignment. What were the biggest takeaways about working with SQL for data analysis and transformation? How do you think these skills will apply in real-world scenarios or future coursework?
 
-( response goes here)
-
+My biggest take away is the SQL is hard and that I should give my self grace and time to keep learning. I think this course will be really helpful in the real-word and other course work because data is everywhere!
 
 # README
 
